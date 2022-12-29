@@ -1,0 +1,27 @@
+version: '3.4'
+services:
+  api:
+    build:
+      context: ./.docker/api
+      dockerfile: ./Dockerfile
+      target: product
+      args:
+        - WORKDIR=/api
+        - UID=${UID}
+        - API_USER_NAME=${API_USER_NAME}
+        - API_ROOT_PASSWORD=${API_ROOT_PASSWORD}
+        - API_USER_PASSWORD=${API_USER_PASSWORD}
+    container_name: 'api'
+    environment:
+      MARIADB_PASSWORD: ''
+    stdin_open: true
+    tty: true
+    ports:
+      - '3000:3000'
+    volumes:
+      - type: 'volume'
+        source: 'bundle_install'
+        target: '/usr/local/bundle'
+volumes:
+  db_volume:
+  bundle_install:
